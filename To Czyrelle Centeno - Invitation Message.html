@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>💖 Will You Be My Valentine? 💖</title>
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background-color: #ffb6c1; /* Peach Pink */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+}
+
+.card {
+    width: 350px;
+    height: 520px;
+    background: #ffb6c1;
+    text-align: center;
+    position: relative;
+}
+
+h1 {
+    font-size: 22px;
+    margin-top: 40px;
+}
+
+img {
+    width: 200px;
+    height: 300px;
+    object-fit: contain;
+    margin-top: 20px;
+}
+
+button {
+    width: 100px;
+    height: 40px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+#no {
+    position: absolute;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+    <!-- Slide 1 -->
+    <div id="slide1">
+        <h1>HELLO CZYRELLE MY WIFE!!!</h1>
+        <button id="next1">Next ➡️</button>
+    </div>
+
+    <!-- Slide 2 -->
+    <div id="slide2" style="display:none;">
+        <h1 id="question">Will you be my Valentine? 💕</h1>
+        <img id="photo" src="me1.jpg">
+        <button id="yes">Yes 💖</button>
+        <button id="no">No ❌</button>
+    </div>
+
+    <!-- Slide 3 -->
+    <div id="slide3" style="display:none;">
+        <h1 id="finalMessage">YAYYYY, OKIII I LOVE YOUUUUU!!! 😍💘</h1>
+        <img src="me2.jpg">
+    </div>
+</div>
+
+<audio id="music" src="music1.wav" loop></audio>
+
+<script>
+const slide1 = document.getElementById("slide1");
+const slide2 = document.getElementById("slide2");
+const slide3 = document.getElementById("slide3");
+
+const next1 = document.getElementById("next1");
+const yesBtn = document.getElementById("yes");
+const noBtn = document.getElementById("no");
+const music = document.getElementById("music");
+const question = document.getElementById("question");
+const photo = document.getElementById("photo");
+
+// Slide 1 -> Slide 2
+next1.addEventListener("click", () => {
+    slide1.style.display = "none";
+    slide2.style.display = "block";
+    // Start music now (user interacted)
+    music.play();
+});
+
+// Make NO button move
+noBtn.addEventListener("mouseover", () => {
+    const x = Math.random() * 200;
+    const y = Math.random() * 250 + 150;
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+});
+
+// YES button -> Slide 3
+yesBtn.addEventListener("click", () => {
+    slide2.style.display = "none";
+    slide3.style.display = "block";
+    // Music keeps playing, don't stop
+});
+</script>
+
+</body>
+</html>
