@@ -30,7 +30,7 @@ h1 {
 img {
     width: 200px;
     height: 300px;
-    object-fit: contain;
+    object-fit: contain; /* prevent zoom */
     margin-top: 20px;
 }
 
@@ -41,15 +41,12 @@ button {
     cursor: pointer;
     margin: 10px;
 }
-
-#no {
-    position: absolute;
-}
 </style>
 </head>
 <body>
 
 <div class="card">
+
     <!-- Slide 1 -->
     <div id="slide1">
         <h1>HELLO CZYRELLE MY WIFE!!!</h1>
@@ -60,8 +57,11 @@ button {
     <div id="slide2" style="display:none;">
         <h1 id="question">Will you be my Valentine? 💕</h1>
         <img id="photo" src="me1.jpg">
-        <button id="yes">Yes 💖</button>
-        <button id="no">No ❌</button>
+        <!-- Buttons container centered -->
+        <div id="buttonContainer" style="margin-top: 20px; text-align: center;">
+            <button id="yes">Yes 💖</button>
+            <button id="no">No ❌</button>
+        </div>
     </div>
 
     <!-- Slide 3 -->
@@ -69,8 +69,10 @@ button {
         <h1 id="finalMessage">YAYYYY, OKIII I LOVE YOUUUUU!!! 😍💘</h1>
         <img src="me2.jpg">
     </div>
+
 </div>
 
+<!-- Music -->
 <audio id="music" src="music1.wav" loop></audio>
 
 <script>
@@ -82,30 +84,29 @@ const next1 = document.getElementById("next1");
 const yesBtn = document.getElementById("yes");
 const noBtn = document.getElementById("no");
 const music = document.getElementById("music");
-const question = document.getElementById("question");
-const photo = document.getElementById("photo");
 
-// Slide 1 -> Slide 2
+// Slide 1 -> Slide 2 and start music
 next1.addEventListener("click", () => {
     slide1.style.display = "none";
     slide2.style.display = "block";
-    // Start music now (user interacted)
-    music.play();
+    // Start music (user interacted)
+    music.play().catch(()=>{});
 });
 
-// Make NO button move
+// Make NO button move horizontally under photo
 noBtn.addEventListener("mouseover", () => {
-    const x = Math.random() * 200;
-    const y = Math.random() * 250 + 150;
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
+    const container = document.getElementById("buttonContainer");
+    const maxX = container.offsetWidth - noBtn.offsetWidth;
+    const x = Math.random() * maxX;
+    noBtn.style.marginLeft = x + "px";
 });
 
 // YES button -> Slide 3
 yesBtn.addEventListener("click", () => {
     slide2.style.display = "none";
     slide3.style.display = "block";
-    // Music keeps playing, don't stop
+    // Music continues
+    if(music.paused){ music.play(); }
 });
 </script>
 
