@@ -7,7 +7,7 @@
     body {
         margin: 0;
         height: 100vh;
-        background-color: #ffb6c1; /* Peach Pink */
+        background-color: #ffb6c1; /* peach pink */
         display: flex;
         justify-content: center;
         align-items: center;
@@ -30,7 +30,7 @@
     img {
         width: 200px;
         height: 300px;
-        object-fit: contain; /* FIX ZOOM */
+        object-fit: contain; /* prevents zoom */
         margin-top: 20px;
     }
 
@@ -66,35 +66,40 @@
 <audio id="music" src="music1.wav" loop></audio>
 
 <script>
-    const noBtn = document.getElementById("no");
-    const yesBtn = document.getElementById("yes");
-    const question = document.getElementById("question");
-    const photo = document.getElementById("photo");
-    const music = document.getElementById("music");
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+const question = document.getElementById("question");
+const photo = document.getElementById("photo");
+const music = document.getElementById("music");
 
-    // Auto-play music after user interaction (browser rule)
-    document.body.addEventListener("click", () => {
+// Auto-play music on first click anywhere (for mobile browsers)
+document.body.addEventListener("click", () => {
+    if(music.paused){
         music.play();
-    }, { once: true });
+    }
+}, { once: true });
 
-    // Make NO button run away
-    noBtn.addEventListener("mouseover", () => {
-        const x = Math.random() * 200;
-        const y = Math.random() * 250 + 150;
-        noBtn.style.left = x + "px";
-        noBtn.style.top = y + "px";
-    });
+// Make NO button run away
+noBtn.addEventListener("mouseover", () => {
+    const x = Math.random() * 200;
+    const y = Math.random() * 250 + 150;
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+});
 
-    // YES button
-    yesBtn.addEventListener("click", () => {
-        question.innerText = "YAYYYY, OKIII I LOVE YOUUUU!!! 😍💘";
-        photo.src = "me2.jpg";
-        yesBtn.style.display = "none";
-        noBtn.style.display = "none";
-        music.pause();
-    });
+// YES button
+yesBtn.addEventListener("click", () => {
+    question.innerHTML = "YAYYYY, OKIII<br>I LOVE YOUUUUUUUUUUUUUUUUUUUUUU!!! 😍💘";
+    photo.src = "me2.jpg";
+    yesBtn.style.display = "none";
+    noBtn.style.display = "none";
+
+    // KEEP music playing
+    if(music.paused){
+        music.play();
+    }
+});
 </script>
 
 </body>
-
 </html>
