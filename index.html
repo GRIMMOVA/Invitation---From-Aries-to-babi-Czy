@@ -30,7 +30,7 @@
     img {
         width: 200px;
         height: 300px;
-        object-fit: contain; /* prevents zoom */
+        object-fit: contain;
         margin-top: 20px;
     }
 
@@ -63,7 +63,7 @@
     <button id="no">No ❌</button>
 </div>
 
-<audio id="music" src="music1.wav" loop></audio>
+<audio id="music" src="music1.wav" loop autoplay muted></audio>
 
 <script>
 const noBtn = document.getElementById("no");
@@ -72,12 +72,20 @@ const question = document.getElementById("question");
 const photo = document.getElementById("photo");
 const music = document.getElementById("music");
 
-// Auto-play music on first click anywhere (for mobile browsers)
-document.body.addEventListener("click", () => {
-    if(music.paused){
-        music.play();
-    }
-}, { once: true });
+// Force unmute and play music after page load / first interaction
+function startMusic() {
+    music.muted = false;
+    music.play().catch(() => {
+        // Safari / mobile might still block autoplay
+        console.log("Autoplay blocked, waiting for user interaction");
+    });
+}
+
+// Try to start immediately
+window.addEventListener("load", startMusic);
+
+// Also start on first click anywhere (mobile fallback)
+document.body.addEventListener("click", startMusic, { once: true });
 
 // Make NO button run away
 noBtn.addEventListener("mouseover", () => {
@@ -87,20 +95,19 @@ noBtn.addEventListener("mouseover", () => {
     noBtn.style.top = y + "px";
 });
 
-// YES button
+// YES button click
 yesBtn.addEventListener("click", () => {
     question.innerHTML = "YAYYYY, OKIII<br>I LOVE YOUUUUUUUUUUUUUUUUUUUUUU!!! 😍💘";
     photo.src = "me2.jpg";
     yesBtn.style.display = "none";
     noBtn.style.display = "none";
 
-    // KEEP music playing
-    if(music.paused){
+    // Keep music playing
+    if (music.paused) {
         music.play();
     }
 });
 </script>
 
 </body>
-
 </html>
